@@ -1,0 +1,21 @@
+version: '3'
+services:
+    pihole:
+        container_name: pihole
+        image: pihole/pihole:latest #Use Release version in production envrionments
+        ports:
+            - "53:53/tcp" #DNS
+            - "53:53/udp" #DNS
+            - "67:67/udp" #DHCP
+            - "80:80/tcp" #HTTP
+            - "443:443/tcp" #HTTPS
+        environment:
+            TZ: 'America/New_York' 
+            WEBPASSWORD: '' 
+            ServerIP: '' 
+        volumes:
+            - './pihole/:/etc/pihole/'
+            - './dnsmasq.d/:/etc/dnsmasq.d/'
+        cap_add:
+            - NET_ADMIN
+        restart: unless-stopped
